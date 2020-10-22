@@ -3,12 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="100dp"
     android:padding="16dp"
-    android:clickable="true"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:background="@drawable/row_background">
 
-    <LinearLayout
+
+<LinearLayout
         android:layout_width="301dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
         <TextView
@@ -17,9 +18,11 @@
             android:layout_height="wrap_content"
             android:fontFamily="serif"
             android:gravity="center_vertical|start"
-            android:text="Title"
-            android:textColor="#020202"
-            android:textSize="25sp" />
+            android:text="Location name"
+            android:textColor="@color/teal_700"
+            android:textStyle="bold"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+       />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -28,13 +31,12 @@
 
             <TextView
                 android:id="@+id/timezoneTv"
-                android:layout_width="310dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="serif"
                 android:gravity="center_vertical|start"
-                android:text="Overall Rating:"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                android:text="Timezone"
+                android:textSize="20sp" />
 
         </LinearLayout>
 
@@ -44,6 +46,7 @@
         android:id="@+id/imageTv"
         android:layout_width="60dp"
         android:layout_height="match_parent"
+        android:contentDescription="fav icon"
         />
 
 </LinearLayout>

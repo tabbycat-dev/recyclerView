@@ -1,14 +1,13 @@
 package com.example.mytown
 
 import android.content.Context
-import android.content.res.Resources
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.res.ResourcesCompat
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mytown.data.Location
 
@@ -17,10 +16,11 @@ class RecyclerViewAdapter(
         val locationList: ArrayList<Location>,
         val drawableFav: Drawable?,
         val drawable: Drawable?
-        ): RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>()
+): RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>()
 
 {
     override fun getItemCount() = locationList.size
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -28,6 +28,7 @@ class RecyclerViewAdapter(
         return ViewHolder(view)
     }
 
+    //create each line of the list
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val location = locationList[position]
         with(holder) {
@@ -41,7 +42,15 @@ class RecyclerViewAdapter(
                 iconIV?.setImageDrawable(drawable)
             }
 
+            //add event click for each line
+            this.itemView.setOnClickListener{
+                showToast("${location.locationName}: ${location.latitude} ,${location.longitude} ")
+            }
         }
+    }
+
+    private fun showToast(text: String) {
+        Toast.makeText(context,text, Toast.LENGTH_SHORT).show()
     }
 
     inner class ViewHolder(itemView: View) :
