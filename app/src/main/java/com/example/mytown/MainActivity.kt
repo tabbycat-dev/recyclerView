@@ -3,10 +3,8 @@ package com.example.mytown
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mytown.data.Location
 
@@ -52,8 +50,8 @@ class MainActivity : AppCompatActivity() {
         recyclerView = findViewById<RecyclerView>(R.id.rvLocationList) //call recycler view layout widget
 
         //specify image icon (fav or not)
-        val drawableFav: Drawable? = ResourcesCompat.getDrawable(resources, R.drawable.ic_fav, null)
-        val drawable: Drawable? = ResourcesCompat.getDrawable(resources, R.drawable.ic_channel_foreground, null)
+        val drawableFav: Drawable? = ResourcesCompat.getDrawable(resources, R.drawable.ic_heart_fav, null)
+        val drawable: Drawable? = ResourcesCompat.getDrawable(resources, R.drawable.ic_heart, null)
 
         // specify an adapter
         val mAdapter = RecyclerViewAdapter(context = applicationContext, locationList = locationList, drawable = drawable, drawableFav = drawableFav)//{
