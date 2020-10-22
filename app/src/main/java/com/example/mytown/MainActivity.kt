@@ -11,57 +11,57 @@ import com.example.mytown.data.Location
 class MainActivity : AppCompatActivity() {
     private lateinit var locationList :  ArrayList<Location>
     private lateinit var recyclerView: RecyclerView
+    private val propertyRegex = ",".toRegex()
+    private val cityRegex = "/".toRegex()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        init()
+        initialiseUI()
     }
 
-    fun init() {
+    fun initialiseUI() {
 //        val text = FileHelper.getTextFromResources(app, R.raw.monster_data)
-        val text = getTextFromResources( R.raw.au_locations)
+        val fullText = getTextFromResources( R.raw.au_locations)
         //Log.i("FILES", text)
-        parse(text)
+        parseFullTextToLines(fullText)
         setRecyclerView()
     }
-    fun parse(text: String){
-        val propertyRegex = ",".toRegex()
-        val cityRegex = "/".toRegex()
+    fun parseFullTextToLines(text: String){
         locationList =  ArrayList<Location>()                       // declare new locations array list
         val lines: List<String> =
             text.split(System.getProperty("line.separator"))        // parse and save lines into a list of String
-        lines.forEach {                                             //loop over each line in List,
-            val (name, lat, long, timezone) = it.split(propertyRegex) //split object by comma "," to find name, lat, long, timezone in order
-            var fav = false                                         //set fav to false
-            timezone.split(cityRegex)[1].apply {                    // split timezone with "/" to find city name
-                if (this.equals("Melbourne")){                      //for Aus/Melbourne timezone, set fav to true
-                    fav = !fav
-                }
-            }
-            val location = Location(name, timezone, long.toFloat(), lat.toFloat(), fav)//create a new location object
-            locationList.add(location)                                                 //add location to lists of locations
-            //Log.i("FILES", "$location ${locationList.indexOf(location)}")
+        lines.forEach {
+            parseLineToLocation(it) //pass each line to function
         }
-        Log.i("FILES", "${locationList.size}")
+    }
+    fun parseLineToLocation(lineText : String){
+        val (name, lat, long, timezone) = lineText.split(propertyRegex) //split object by comma "," to find name, lat, long, timezone in order
+        var fav = false                                         //set fav to false
+        timezone.split(cityRegex)[1].apply {                    // split timezone with "/" to find city name
+            if (this.equals("Melbourne")){                      //for Aus/Melbourne timezone, set fav to true
+                fav = !fav
+            }
+        }
+        val location = Location(name, timezone, long.toFloat(), lat.toFloat(), fav)//create a new location object
+        locationList.add(location)                                                 //add location to lists of locations
+        //Log.i("FILES", "$location ${locationList.indexOf(location)}")
     }
 
     fun setRecyclerView() {
         recyclerView = findViewById<RecyclerView>(R.id.rvLocationList) //call recycler view layout widget
 
-        //specify image icon (fav or not)
+        //specify fav icons
         val drawableFav: Drawable? = ResourcesCompat.getDrawable(resources, R.drawable.ic_heart_fav, null)
         val drawable: Drawable? = ResourcesCompat.getDrawable(resources, R.drawable.ic_heart, null)
 
         // specify an adapter
-        val mAdapter = RecyclerViewAdapter(context = applicationContext, locationList = locationList, drawable = drawable, drawableFav = drawableFav)//{
-//            showToast("${it.latitude} ,${it.longitude} ") //click on each row will trigger showToast func
-//        }
+        val mAdapter = RecyclerViewAdapter(
+                context = applicationContext,
+                locationList = locationList,
+                drawable = drawable,
+                drawableFav = drawableFav)
         recyclerView.setAdapter(mAdapter)
-    }
-
-    private fun showToast(text: String) {
-        //Toast.makeText(applicationContext,text,Toast.LENGTH_SHORT).show()
     }
 
     //  file helper getTextFromResources
